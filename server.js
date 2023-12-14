@@ -6,30 +6,17 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
+// Serve static files from the "public" directory
 app.use(express.static('public'));
 
-const rooms = {};
-
-io.on('connection', (socket) => {
-    socket.on('joinRoom', (roomCode) => {
-        socket.join(roomCode);
-        if (!rooms[roomCode]) {
-            rooms[roomCode] = generateRandomLetters();
-        }
-        io.to(roomCode).emit('updateLetters', rooms[roomCode]);
-    });
-
-    socket.on('disconnect', () => {
-        // Handle disconnection if needed
-    });
+// Define a route handler for the root route
+app.get('/', (req, res) => {
+  res.send('Hello, this is your server!');
 });
 
-function generateRandomLetters() {
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    return Array.from({ length: 6 }, () => letters[Math.floor(Math.random() * letters.length)]);
-}
+// ... other route handlers or socket.io logic
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
