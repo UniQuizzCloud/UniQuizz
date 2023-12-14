@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Entry Code</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #entryCode {
+            font-size: 2em;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+
+        #generateCodeBtn {
+            font-size: 1em;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <label for="entryCode">Enter Code:</label>
+        <input type="text" id="entryCode" placeholder="###-###" maxlength="7">
+        <button id="findGameBtn">Find Game</button>
+    </div>
+
+    <div>
+        <h2>Random Letters:</h2>
+        <div id="randomLetters"></div>
+    </div>
+
+    <script>
+        document.getElementById('findGameBtn').addEventListener('click', findGame);
+        document.getElementById('generateCodeBtn').addEventListener('click', generateRandomLetters);
+
+        function findGame() {
+            const entryCode = document.getElementById('entryCode').value;
+            
+            // Add your logic here to handle the entry code, fetch data from the server, etc.
+            // For now, let's just log the entry code to the console.
+            console.log('Finding game for code:', entryCode);
+
+            // You can update the UI or perform other actions based on the entry code.
+        }
+
+        function generateRandomLetters() {
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const randomLetters = Array.from({ length: 5 }, () => letters[Math.floor(Math.random() * letters.length)]);
+
+            document.getElementById('randomLetters').innerText = randomLetters.join(' ');
+        }
+    </script>
+</body>
+</html>
