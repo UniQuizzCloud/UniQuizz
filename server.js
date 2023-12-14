@@ -14,12 +14,10 @@ io.on('connection', (socket) => {
     socket.on('joinRoom', (roomCode) => {
         socket.join(roomCode);
 
-        // Check if the room exists, if not, create random letters for it
         if (!rooms[roomCode]) {
             rooms[roomCode] = generateRandomLetters();
         }
 
-        // Emit the random letters to everyone in the room
         io.to(roomCode).emit('updateLetters', rooms[roomCode]);
     });
 
@@ -28,10 +26,7 @@ io.on('connection', (socket) => {
         socket.join(roomCode);
         rooms[roomCode] = generateRandomLetters();
 
-        // Emit the random letters to the creator
         socket.emit('updateLetters', rooms[roomCode]);
-
-        // Broadcast the new room code to everyone in the room
         io.to(roomCode).emit('updateRoomCode', roomCode);
     });
 

@@ -3,47 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Room</title>
-    <style>
-        /* Add your CSS styles here if needed */
-    </style>
+    <title>UniQuizz</title>
 </head>
 <body>
-
-    <div>
-        <label for="roomCode">Room Code:</label>
-        <input type="text" id="roomCode" placeholder="Enter Room Code">
-        <button id="joinRoomBtn">Join Room</button>
-        <button id="createRoomBtn">Create Room</button>
-    </div>
-
-    <div>
-        <h2>Room Details:</h2>
-        <div id="randomLetters"></div>
-    </div>
-
+    <h1>Welcome to UniQuizz!</h1>
+    <div id="randomLetters"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
     <script>
         const socket = io();
 
-        document.getElementById('joinRoomBtn').addEventListener('click', joinRoom);
-        document.getElementById('createRoomBtn').addEventListener('click', createRoom);
-
-        function joinRoom() {
-            const roomCode = document.getElementById('roomCode').value;
-            socket.emit('joinRoom', roomCode);
-        }
-
-        function createRoom() {
-            socket.emit('createRoom');
-        }
-
         socket.on('updateLetters', (letters) => {
             document.getElementById('randomLetters').innerText = letters.join(' ');
-        });
-
-        socket.on('updateRoomCode', (roomCode) => {
-            alert(`Room created! Room Code: ${roomCode}`);
         });
     </script>
 </body>
