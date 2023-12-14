@@ -14,6 +14,7 @@
         <label for="roomCode">Room Code:</label>
         <input type="text" id="roomCode" placeholder="Enter Room Code">
         <button id="joinRoomBtn">Join Room</button>
+        <button id="createRoomBtn">Create Room</button>
     </div>
 
     <div>
@@ -26,16 +27,24 @@
         const socket = io();
 
         document.getElementById('joinRoomBtn').addEventListener('click', joinRoom);
+        document.getElementById('createRoomBtn').addEventListener('click', createRoom);
 
         function joinRoom() {
             const roomCode = document.getElementById('roomCode').value;
-            
             socket.emit('joinRoom', roomCode);
-
-            socket.on('updateLetters', (letters) => {
-                document.getElementById('randomLetters').innerText = letters.join(' ');
-            });
         }
+
+        function createRoom() {
+            socket.emit('createRoom');
+        }
+
+        socket.on('updateLetters', (letters) => {
+            document.getElementById('randomLetters').innerText = letters.join(' ');
+        });
+
+        socket.on('updateRoomCode', (roomCode) => {
+            alert(`Room created! Room Code: ${roomCode}`);
+        });
     </script>
 </body>
 </html>
