@@ -5,30 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Room</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        #roomCode {
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-
-        #randomLetters {
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-
-        #joinRoomBtn {
-            font-size: 1em;
-            padding: 10px;
-            cursor: pointer;
-        }
+        /* Add your CSS styles here if needed */
     </style>
 </head>
 <body>
@@ -44,28 +21,20 @@
         <div id="randomLetters"></div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
     <script>
-        let intervalId;
+        const socket = io();
 
         document.getElementById('joinRoomBtn').addEventListener('click', joinRoom);
 
         function joinRoom() {
             const roomCode = document.getElementById('roomCode').value;
             
-            // Add your logic here to handle joining the room, fetch data from the server, etc.
-            // For now, let's just log the room code to the console.
-            console.log('Joining room with code:', roomCode);
+            socket.emit('joinRoom', roomCode);
 
-            // Start updating random letters every 10 seconds
-            intervalId = setInterval(generateRandomLetters, 10000);
-            generateRandomLetters(); // Initial call to display random letters
-        }
-
-        function generateRandomLetters() {
-            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const randomLetters = Array.from({ length: 6 }, () => letters[Math.floor(Math.random() * letters.length)]);
-
-            document.getElementById('randomLetters').innerText = randomLetters.join(' ');
+            socket.on('updateLetters', (letters) => {
+                document.getElementById('randomLetters').innerText = letters.join(' ');
+            });
         }
     </script>
 </body>
